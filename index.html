@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anugrah Louis — Fullstack Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0d0d0d; --bg2:#141414; --bg3:#1c1c1c;
+  --border:#222; --muted:#444; --subtle:#777;
+  --text:#e8e8e8; --white:#fff;
+  --gold:#c9a96e; --gold-dim:rgba(201,169,110,0.12);
+  --r:16px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;overflow-x:hidden;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+
+/* ── PARTICLES ── */
+#particles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.particle{position:absolute;border-radius:50%;animation:float linear infinite;opacity:0;}
+@keyframes float{
+  0%{transform:translateY(100vh) translateX(0) scale(0);opacity:0;}
+  10%{opacity:1;}
+  90%{opacity:0.4;}
+  100%{transform:translateY(-100px) translateX(var(--drift)) scale(1);opacity:0;}
+}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 40px;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(13,13,13,0.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;letter-spacing:-0.5px;color:var(--white);text-decoration:none;}
+.nav-logo span{color:var(--gold);}
+.nav-links{display:flex;gap:32px;}
+.nav-links a{font-size:0.8rem;font-weight:500;letter-spacing:0.5px;color:var(--subtle);text-decoration:none;transition:color 0.2s;}
+.nav-links a:hover{color:var(--white);}
+.nav-cta{padding:8px 20px;background:var(--white);color:var(--bg);border-radius:100px;font-size:0.78rem;font-weight:600;text-decoration:none;transition:all 0.2s;}
+.nav-cta:hover{background:var(--gold);}
+
+/* ── HERO ── */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 40px 72px;position:relative;overflow:hidden;z-index:1;}
+.hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,#252525 1px,transparent 1px);background-size:32px 32px;opacity:0.35;mask-image:radial-gradient(ellipse 100% 100% at 50% 100%,transparent 30%,black 80%);}
+.hero::after{content:'';position:absolute;top:0;left:0;right:0;height:200px;background:linear-gradient(var(--bg),transparent);}
+.hero-content{position:relative;z-index:1;max-width:1000px;}
+.hero-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:28px;opacity:0;animation:rise 0.7s ease 0.1s forwards;}
+.hero-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold);animation:pulse-dot 2s ease infinite;}
+@keyframes pulse-dot{0%,100%{box-shadow:0 0 10px var(--gold);}50%{box-shadow:0 0 20px var(--gold),0 0 40px rgba(201,169,110,0.3);}}
+.hero-eyebrow span{font-size:0.75rem;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--subtle);}
+h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(3.5rem,9vw,7.5rem);line-height:0.95;letter-spacing:-3px;color:var(--white);margin-bottom:32px;opacity:0;animation:rise 0.7s ease 0.2s forwards;}
+h1 em{font-style:normal;color:transparent;-webkit-text-stroke:1.5px var(--muted);}
+.hero-bottom{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;flex-wrap:wrap;opacity:0;animation:rise 0.7s ease 0.3s forwards;}
+.hero-desc{max-width:420px;font-size:1rem;font-weight:300;color:var(--subtle);line-height:1.8;}
+.hero-desc strong{color:var(--text);font-weight:500;}
+.hero-actions{display:flex;gap:12px;align-items:center;}
+.btn-solid{padding:13px 28px;background:var(--white);color:var(--bg);border-radius:100px;font-size:0.82rem;font-weight:600;text-decoration:none;transition:all 0.2s;white-space:nowrap;}
+.btn-solid:hover{background:var(--gold);transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,169,110,0.25);}
+.btn-outline{padding:13px 28px;border:1px solid var(--border);color:var(--subtle);border-radius:100px;font-size:0.82rem;font-weight:500;text-decoration:none;transition:all 0.2s;white-space:nowrap;}
+.btn-outline:hover{border-color:var(--muted);color:var(--text);}
+.scroll-hint{display:flex;align-items:center;gap:8px;font-size:0.7rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;opacity:0;animation:rise 0.7s ease 0.5s forwards;margin-top:48px;}
+.scroll-line{width:40px;height:1px;background:var(--muted);}
+@keyframes rise{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── LAYOUT ── */
+.container{max-width:1000px;margin:0 auto;padding:0 40px;position:relative;z-index:1;}
+section{padding:100px 0;}
+.section-label{font-size:0.68rem;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;}
+.section-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2rem,5vw,3.2rem);letter-spacing:-1.5px;color:var(--white);line-height:1.1;margin-bottom:48px;}
+.divider{height:1px;background:var(--border);margin:0 40px;position:relative;z-index:1;}
+
+/* ── COUNTERS ── */
+.counters{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:0;}
+.counter-item{background:var(--bg2);padding:28px 24px;text-align:center;transition:background 0.2s;}
+.counter-item:hover{background:var(--bg3);}
+.counter-num{font-family:'Syne',sans-serif;font-size:2.4rem;font-weight:800;color:var(--white);letter-spacing:-1px;line-height:1;}
+.counter-num span{color:var(--gold);}
+.counter-label{font-size:0.72rem;color:var(--subtle);margin-top:6px;letter-spacing:0.5px;}
+
+/* ── ABOUT ── */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;}
+.about-text p{font-size:1rem;font-weight:300;color:var(--subtle);line-height:1.9;margin-bottom:16px;}
+.about-text p strong{color:var(--text);font-weight:500;}
+.about-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:24px;}
+.about-card-title{font-size:0.7rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:20px;}
+.about-stat{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);}
+.about-stat:last-child{border-bottom:none;}
+.as-key{font-size:0.82rem;color:var(--subtle);}
+.as-val{font-size:0.82rem;font-weight:500;color:var(--text);}
+.as-val.gold{color:var(--gold);}
+.as-val.green{color:#4ade80;}
+
+/* ── STACK ── */
+.stack-list{display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.stack-item{display:grid;grid-template-columns:48px 1fr auto;align-items:center;gap:20px;padding:18px 24px;background:var(--bg2);transition:background 0.2s;}
+.stack-item:hover{background:var(--bg3);}
+.si-icon{width:40px;height:40px;border-radius:10px;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.si-name{font-size:0.88rem;font-weight:500;color:var(--text);}
+.si-sub{font-size:0.72rem;color:var(--muted);margin-top:2px;}
+.si-bar{width:80px;height:3px;background:var(--border);border-radius:2px;overflow:hidden;flex-shrink:0;}
+.si-fill{height:100%;background:var(--white);border-radius:2px;width:0;transition:width 1.2s cubic-bezier(0.4,0,0.2,1);}
+.si-fill.gold{background:var(--gold);}
+
+/* ── TIMELINE ── */
+.timeline{position:relative;padding-left:28px;}
+.timeline::before{content:'';position:absolute;left:6px;top:8px;bottom:8px;width:1px;background:var(--border);}
+.tl-item{position:relative;margin-bottom:36px;}
+.tl-item:last-child{margin-bottom:0;}
+.tl-dot{position:absolute;left:-28px;top:6px;width:13px;height:13px;border-radius:50%;background:var(--bg2);border:2px solid var(--border);transition:all 0.3s;}
+.tl-item:hover .tl-dot{border-color:var(--gold);background:var(--gold);box-shadow:0 0 10px rgba(201,169,110,0.4);}
+.tl-year{font-size:0.65rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.tl-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--white);margin-bottom:6px;letter-spacing:-0.3px;}
+.tl-desc{font-size:0.82rem;color:var(--subtle);line-height:1.7;}
+.tl-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px;}
+.tl-tag{font-size:0.62rem;color:var(--muted);border:1px solid var(--border);padding:2px 8px;border-radius:100px;}
+
+/* ── PROJECTS (hover upgrade) ── */
+.projects-list{display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.proj-item{display:grid;grid-template-columns:1fr auto;align-items:center;gap:24px;padding:28px;background:var(--bg2);transition:all 0.3s;cursor:default;position:relative;overflow:hidden;}
+.proj-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold);transform:scaleY(0);transform-origin:bottom;transition:transform 0.3s;}
+.proj-item:hover{background:var(--bg3);padding-left:36px;}
+.proj-item:hover::before{transform:scaleY(1);}
+.proj-item:hover .pi-title{color:var(--gold);}
+.proj-item:hover .pi-arrow{color:var(--gold);transform:translate(4px,-4px);}
+.proj-item:hover .pi-tech{border-color:rgba(201,169,110,0.3);color:rgba(201,169,110,0.7);}
+.pi-top{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.pi-num{font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:700;color:var(--muted);letter-spacing:1px;}
+.pi-tag{font-size:0.62rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);background:var(--gold-dim);padding:2px 8px;border-radius:100px;}
+.pi-title{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:700;color:var(--white);letter-spacing:-0.5px;margin-bottom:6px;transition:color 0.3s;}
+.pi-desc{font-size:0.8rem;color:var(--subtle);line-height:1.6;max-width:520px;}
+.pi-techs{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;}
+.pi-tech{font-size:0.65rem;color:var(--muted);border:1px solid var(--border);padding:2px 8px;border-radius:100px;transition:all 0.3s;}
+.pi-arrow{font-size:1.2rem;color:var(--muted);transition:all 0.3s;flex-shrink:0;}
+
+/* ── TESTIMONIALS ── */
+.testimonials{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:640px){.testimonials{grid-template-columns:1fr;}}
+.testi-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:28px;transition:all 0.3s;position:relative;}
+.testi-card::before{content:'"';position:absolute;top:16px;right:20px;font-family:'Syne',sans-serif;font-size:5rem;color:rgba(201,169,110,0.08);line-height:1;}
+.testi-card:hover{border-color:rgba(201,169,110,0.3);background:var(--bg3);}
+.testi-text{font-size:0.88rem;color:var(--subtle);line-height:1.8;margin-bottom:20px;font-style:italic;}
+.testi-text strong{color:var(--text);font-style:normal;}
+.testi-author{display:flex;align-items:center;gap:12px;}
+.testi-avatar{width:36px;height:36px;border-radius:50%;background:var(--gold-dim);border:1px solid rgba(201,169,110,0.3);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.testi-name{font-size:0.82rem;font-weight:600;color:var(--text);}
+.testi-role{font-size:0.7rem;color:var(--muted);}
+
+/* ── CONTACT ── */
+.contact-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:24px;padding:64px 48px;text-align:center;position:relative;overflow:hidden;}
+.contact-wrap::before{content:'';position:absolute;top:-80px;right:-80px;width:300px;height:300px;background:radial-gradient(circle,rgba(201,169,110,0.06),transparent 70%);pointer-events:none;}
+.contact-wrap .section-title{margin-bottom:16px;}
+.contact-sub{font-size:1rem;font-weight:300;color:var(--subtle);margin-bottom:36px;max-width:400px;margin-left:auto;margin-right:auto;line-height:1.7;}
+.contact-links{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.contact-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:100px;font-size:0.82rem;font-weight:500;text-decoration:none;transition:all 0.2s;}
+.cb-ig{background:var(--white);color:var(--bg);}
+.cb-ig:hover{background:var(--gold);transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,169,110,0.25);}
+.cb-wa{background:rgba(37,211,102,0.1);color:#25d366;border:1px solid rgba(37,211,102,0.25);}
+.cb-wa:hover{background:#25d366;color:white;transform:translateY(-2px);box-shadow:0 8px 24px rgba(37,211,102,0.25);}
+.cb-gh{background:transparent;color:var(--subtle);border:1px solid var(--border);}
+.cb-gh:hover{border-color:var(--muted);color:var(--text);transform:translateY(-2px);}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--border);padding:28px 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;position:relative;z-index:1;}
+.footer-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:0.88rem;color:var(--white);}
+.footer-logo span{color:var(--gold);}
+.footer-copy{font-size:0.72rem;color:var(--muted);}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* ── MOBILE ── */
+@media(max-width:640px){
+  nav{padding:0 20px;}
+  .nav-links{display:none;}
+  .hero{padding:0 20px 56px;}
+  .container{padding:0 20px;}
+  footer{padding:24px 20px;}
+  .divider{margin:0 20px;}
+  .about-grid{grid-template-columns:1fr;}
+  .counters{grid-template-columns:1fr 1fr;}
+  .proj-item{grid-template-columns:1fr;}
+  .pi-arrow{display:none;}
+  .stack-item{grid-template-columns:40px 1fr;}
+  .si-bar{display:none;}
+  h1{letter-spacing:-2px;}
+  .contact-wrap{padding:40px 24px;}
+  .proj-item:hover{padding-left:28px;}
+}
+</style>
+</head>
+<body>
+
+<!-- PARTICLES -->
+<div id="particles"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">Anugrah<span>.</span></a>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#stack">Stack</a>
+    <a href="#projects">Projects</a>
+    <a href="#journey">Journey</a>
+    <a href="#testimonials">Reviews</a>
+  </div>
+  <a class="nav-cta" href="#contact">Contact</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <div class="hero-dot"></div>
+      <span>Fullstack Developer & Mobile-First Coder</span>
+    </div>
+    <h1>Anugrah<br><em>Louis.</em></h1>
+    <div class="hero-bottom">
+      <p class="hero-desc">
+        Membangun web dari <strong>mobile</strong> — pakai Acode & Termux.
+        Spesialis <strong>HTML, CSS, JS</strong>, Firebase, dan GitHub Pages.
+        Dari layar kecil ke production. 🔥
+      </p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn-solid">Lihat Projects</a>
+        <a href="#contact" class="btn-outline">Contact</a>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <span class="scroll-line"></span>
+      <span>Scroll</span>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- COUNTERS -->
+<section style="padding:60px 0;">
+  <div class="container">
+    <div class="counters reveal">
+      <div class="counter-item">
+        <div class="counter-num"><span class="count" data-target="5">0</span><span>+</span></div>
+        <div class="counter-label">Projects Live</div>
+      </div>
+      <div class="counter-item">
+        <div class="counter-num"><span class="count" data-target="277">0</span><span>+</span></div>
+        <div class="counter-label">Soal di KamusSoal</div>
+      </div>
+      <div class="counter-item">
+        <div class="counter-num"><span class="count" data-target="100">0</span><span>%</span></div>
+        <div class="counter-label">Mobile-Built</div>
+      </div>
+      <div class="counter-item">
+        <div class="counter-num"><span class="count" data-target="3">0</span><span>+</span></div>
+        <div class="counter-label">Tech Stack</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="section-label reveal">About</div>
+    <h2 class="section-title reveal">Siapa gue?</h2>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>Gue <strong>Anugrah Louis</strong>, seorang fullstack developer yang nge-code dari HP — literally. Pakai <strong>Acode</strong> sebagai editor dan <strong>Termux</strong> sebagai Linux environment, gue build dan deploy website langsung dari mobile.</p>
+        <p>Fokus utama gue di <strong>HTML, CSS, JavaScript</strong> untuk frontend, dengan <strong>Firebase</strong> untuk backend (auth, realtime database), dan <strong>GitHub Pages</strong> untuk hosting zero-cost.</p>
+        <p>Sekarang lagi banyak ngoprek soal <strong>AI Agent & Automation</strong> — gimana caranya teknologi bisa kerja otomatis buat ngebantu orang banyak.</p>
+      </div>
+      <div class="about-card reveal">
+        <div class="about-card-title">Quick Info</div>
+        <div class="about-stat"><span class="as-key">Name</span><span class="as-val">Anugrah Louis</span></div>
+        <div class="about-stat"><span class="as-key">Role</span><span class="as-val">Fullstack Developer</span></div>
+        <div class="about-stat"><span class="as-key">Editor</span><span class="as-val gold">Acode (Android)</span></div>
+        <div class="about-stat"><span class="as-key">Environment</span><span class="as-val gold">Termux (Linux)</span></div>
+        <div class="about-stat"><span class="as-key">Hosting</span><span class="as-val">GitHub Pages + Firebase</span></div>
+        <div class="about-stat"><span class="as-key">Status</span><span class="as-val green">● Open to Collab</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- STACK -->
+<section id="stack">
+  <div class="container">
+    <div class="section-label reveal">Tech Stack</div>
+    <h2 class="section-title reveal">Yang gue pakai.</h2>
+    <div class="stack-list reveal">
+      <div class="stack-item"><div class="si-icon">🟧</div><div class="si-info"><div class="si-name">HTML5</div><div class="si-sub">Semantic markup, struktur web, SEO</div></div><div class="si-bar"><div class="si-fill gold" data-w="93%"></div></div></div>
+      <div class="stack-item"><div class="si-icon">🟦</div><div class="si-info"><div class="si-name">CSS3</div><div class="si-sub">Animasi, responsive design, Flexbox & Grid</div></div><div class="si-bar"><div class="si-fill gold" data-w="88%"></div></div></div>
+      <div class="stack-item"><div class="si-icon">🟨</div><div class="si-info"><div class="si-name">JavaScript</div><div class="si-sub">Vanilla JS, DOM, async/await, fetch API</div></div><div class="si-bar"><div class="si-fill gold" data-w="82%"></div></div></div>
+      <div class="stack-item"><div class="si-icon">🔥</div><div class="si-info"><div class="si-name">Firebase</div><div class="si-sub">Auth, Realtime Database, hosting</div></div><div class="si-bar"><div class="si-fill" data-w="78%"></div></div></div>
+      <div class="stack-item"><div class="si-icon">🐙</div><div class="si-info"><div class="si-name">GitHub Pages</div><div class="si-sub">Version control, CI/CD, deployment gratis</div></div><div class="si-bar"><div class="si-fill" data-w="85%"></div></div></div>
+      <div class="stack-item"><div class="si-icon">📱</div><div class="si-info"><div class="si-name">Acode + Termux</div><div class="si-sub">Full dev environment di Android, Linux mobile</div></div><div class="si-bar"><div class="si-fill gold" data-w="96%"></div></div></div>
+      <div class="stack-item"><div class="si-icon">🤖</div><div class="si-info"><div class="si-name">AI & Automation</div><div class="si-sub">AI agent building, workflow automation</div></div><div class="si-bar"><div class="si-fill" data-w="68%"></div></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- JOURNEY / TIMELINE -->
+<section id="journey">
+  <div class="container">
+    <div class="section-label reveal">Journey</div>
+    <h2 class="section-title reveal">Timeline gue.</h2>
+    <div class="timeline reveal">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2023</div>
+        <div class="tl-title">Mulai belajar HTML & CSS</div>
+        <div class="tl-desc">Nulis tag pertama dari HP pakai Acode. Dari sini semua dimulai — nggak ada laptop, tapi ada semangat.</div>
+        <div class="tl-tags"><span class="tl-tag">HTML</span><span class="tl-tag">CSS</span><span class="tl-tag">Acode</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2023 — akhir</div>
+        <div class="tl-title">Setup Linux di Android</div>
+        <div class="tl-desc">Install Termux, setup Ubuntu & Alpine Linux di HP. Pertama kali bisa jalanin perintah Linux dari mobile.</div>
+        <div class="tl-tags"><span class="tl-tag">Termux</span><span class="tl-tag">Linux</span><span class="tl-tag">Ubuntu</span><span class="tl-tag">Alpine</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2024</div>
+        <div class="tl-title">Belajar JavaScript & Firebase</div>
+        <div class="tl-desc">Masuk ke dunia JavaScript dan mulai integrasi Firebase — Auth, Realtime Database, dan hosting. Website pertama yang beneran online!</div>
+        <div class="tl-tags"><span class="tl-tag">JavaScript</span><span class="tl-tag">Firebase</span><span class="tl-tag">GitHub Pages</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2024 — pertengahan</div>
+        <div class="tl-title">Launch SimTKA & KamusSoal</div>
+        <div class="tl-desc">Dua project besar pertama live di GitHub Pages. SimTKA untuk simulasi ujian, KamusSoal untuk bank soal 277+ dengan Firebase sync.</div>
+        <div class="tl-tags"><span class="tl-tag">SimTKA</span><span class="tl-tag">KamusSoal</span><span class="tl-tag">Firebase RTDB</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2025</div>
+        <div class="tl-title">Eksplorasi AI Agent & Automation</div>
+        <div class="tl-desc">Mulai ngoprek AI API, bikin tools otomatis, dan membangun StudentHub — platform all-in-one untuk pelajar.</div>
+        <div class="tl-tags"><span class="tl-tag">AI API</span><span class="tl-tag">Automation</span><span class="tl-tag">StudentHub</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <div class="section-label reveal">Projects</div>
+    <h2 class="section-title reveal">Yang udah gue build.</h2>
+    <div class="projects-list reveal">
+      <div class="proj-item">
+        <div class="pi-left">
+          <div class="pi-top"><span class="pi-num">01</span><span class="pi-tag">Web App</span></div>
+          <div class="pi-title">SimTKA</div>
+          <div class="pi-desc">Simulasi ujian TKA interaktif dengan leaderboard real-time, timer, dan sistem scoring. Dibangun & di-deploy dari mobile.</div>
+          <div class="pi-techs"><span class="pi-tech">HTML</span><span class="pi-tech">CSS</span><span class="pi-tech">JavaScript</span><span class="pi-tech">Firebase</span><span class="pi-tech">GitHub Pages</span></div>
+        </div>
+        <div class="pi-arrow">↗</div>
+      </div>
+      <div class="proj-item">
+        <div class="pi-left">
+          <div class="pi-top"><span class="pi-num">02</span><span class="pi-tag">Education</span></div>
+          <div class="pi-title">KamusSoal</div>
+          <div class="pi-desc">Bank soal 277+ pelajaran SD–SMA dengan filter real-time, Firebase sync, fitur like & copy. Mobile-first design.</div>
+          <div class="pi-techs"><span class="pi-tech">HTML</span><span class="pi-tech">Firebase RTDB</span><span class="pi-tech">Vanilla JS</span><span class="pi-tech">Mobile-first</span></div>
+        </div>
+        <div class="pi-arrow">↗</div>
+      </div>
+      <div class="proj-item">
+        <div class="pi-left">
+          <div class="pi-top"><span class="pi-num">03</span><span class="pi-tag">Tools</span></div>
+          <div class="pi-title">StudentHub</div>
+          <div class="pi-desc">All-in-one tools pelajar: jadwal belajar, kalkulator nilai, kuis interaktif, tebak kata, dan flash card dalam 1 website.</div>
+          <div class="pi-techs"><span class="pi-tech">HTML</span><span class="pi-tech">CSS</span><span class="pi-tech">localStorage</span><span class="pi-tech">Single-file App</span></div>
+        </div>
+        <div class="pi-arrow">↗</div>
+      </div>
+      <div class="proj-item">
+        <div class="pi-left">
+          <div class="pi-top"><span class="pi-num">04</span><span class="pi-tag">DevOps</span></div>
+          <div class="pi-title">Mobile Linux Setup</div>
+          <div class="pi-desc">Setup Ubuntu & Alpine Linux di Android via Termux. Full dev environment — git, npm, python — semua di mobile.</div>
+          <div class="pi-techs"><span class="pi-tech">Termux</span><span class="pi-tech">Ubuntu</span><span class="pi-tech">Alpine</span><span class="pi-tech">Linux</span></div>
+        </div>
+        <div class="pi-arrow">↗</div>
+      </div>
+      <div class="proj-item">
+        <div class="pi-left">
+          <div class="pi-top"><span class="pi-num">05</span><span class="pi-tag">Automation</span></div>
+          <div class="pi-title">AI Agent Experiments</div>
+          <div class="pi-desc">Eksplorasi AI agent dan otomasi workflow. Integrasi AI API dengan web apps untuk automasi konten dan data processing.</div>
+          <div class="pi-techs"><span class="pi-tech">AI API</span><span class="pi-tech">JavaScript</span><span class="pi-tech">Firebase</span><span class="pi-tech">Automation</span></div>
+        </div>
+        <div class="pi-arrow">↗</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="container">
+    <div class="section-label reveal">Testimonials</div>
+    <h2 class="section-title reveal">Kata mereka.</h2>
+    <div class="testimonials">
+      <div class="testi-card reveal">
+        <div class="testi-text">"Gila sih ini orang nge-code dari HP doang bisa bikin website se-<strong>clean</strong> ini. SimTKA beneran ngebantu gue latihan TKA, designnya juga enak banget dipake."</div>
+        <div class="testi-author">
+          <div class="testi-avatar">👨‍🎓</div>
+          <div><div class="testi-name">Rizki M.</div><div class="testi-role">Siswa SMA, Karawang</div></div>
+        </div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="testi-text">"KamusSoal jadi andalan buat nyiapin soal ujian. <strong>Filternya responsif</strong>, soalnya lengkap, dan tampilannya bersih banget. Top!"</div>
+        <div class="testi-author">
+          <div class="testi-avatar">👩‍🏫</div>
+          <div><div class="testi-name">Bu Sari</div><div class="testi-role">Guru SD, Karawang</div></div>
+        </div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="testi-text">"Nggak nyangka ada yang bisa setup <strong>Linux full di Android</strong> dan tetep produktif bikin project. Inspiratif banget buat yang nggak punya laptop."</div>
+        <div class="testi-author">
+          <div class="testi-avatar">👨‍💻</div>
+          <div><div class="testi-name">Dika P.</div><div class="testi-role">Junior Developer</div></div>
+        </div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="testi-text">"StudentHub lengkap banget! Satu website ada jadwal, nilai, kuis, semua ada. <strong>Langsung kepake</strong> buat belajar sehari-hari."</div>
+        <div class="testi-author">
+          <div class="testi-avatar">🧑‍🎓</div>
+          <div><div class="testi-name">Amel R.</div><div class="testi-role">Siswa SMP</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-wrap reveal">
+      <div class="section-label" style="justify-content:center;display:flex;margin-bottom:14px;">Contact</div>
+      <h2 class="section-title" style="margin-bottom:16px;">Let's build something.</h2>
+      <p class="contact-sub">Open untuk kolaborasi, project bareng, atau sekadar ngobrol soal tech dan coding. Hubungi gue kapan aja!</p>
+      <div class="contact-links">
+        <a class="contact-btn cb-ig" href="https://instagram.com/anugerahlouis" target="_blank">📸 @anugerahlouis</a>
+        <a class="contact-btn cb-wa" href="https://wa.me/6281356653098" target="_blank">💬 WhatsApp</a>
+        <a class="contact-btn cb-gh" href="https://github.com/anugerahlouis" target="_blank">🐙 GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Anugrah<span>.</span></div>
+  <div class="footer-copy">© 2025 Anugrah Louis — Built from mobile 📱</div>
+</footer>
+
+<script>
+// ── PARTICLES ──
+(function(){
+  const container = document.getElementById('particles');
+  const colors = ['rgba(201,169,110,0.3)','rgba(255,255,255,0.06)','rgba(201,169,110,0.15)','rgba(255,255,255,0.1)'];
+  for(let i=0;i<28;i++){
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random()*3+1;
+    const color = colors[Math.floor(Math.random()*colors.length)];
+    const duration = Math.random()*20+15;
+    const delay = Math.random()*20;
+    const drift = (Math.random()-0.5)*200;
+    p.style.cssText = `
+      width:${size}px;height:${size}px;
+      background:${color};
+      left:${Math.random()*100}%;
+      --drift:${drift}px;
+      animation-duration:${duration}s;
+      animation-delay:-${delay}s;
+    `;
+    container.appendChild(p);
+  }
+})();
+
+// ── SCROLL REVEAL ──
+const revealObs = new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting) setTimeout(()=>e.target.classList.add('visible'), i*80);
+  });
+},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(r=>revealObs.observe(r));
+
+// ── ANIMATED COUNTERS ──
+const countObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting) return;
+    e.target.querySelectorAll('.count').forEach(el=>{
+      const target = parseInt(el.dataset.target);
+      const dur = target > 100 ? 1800 : 1000;
+      let start = 0;
+      const step = target/60;
+      const t = setInterval(()=>{
+        start = Math.min(start+step, target);
+        el.textContent = Math.floor(start);
+        if(start>=target) clearInterval(t);
+      }, dur/60);
+    });
+    countObs.unobserve(e.target);
+  });
+},{threshold:0.5});
+const counters = document.querySelector('.counters');
+if(counters) countObs.observe(counters);
+
+// ── SKILL BARS ──
+const barObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting) return;
+    e.target.querySelectorAll('.si-fill').forEach((f,i)=>{
+      setTimeout(()=>{ f.style.width = f.dataset.w; }, i*80);
+    });
+    barObs.unobserve(e.target);
+  });
+},{threshold:0.3});
+const stackList = document.querySelector('.stack-list');
+if(stackList) barObs.observe(stackList);
+
+// ── ACTIVE NAV ──
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll',()=>{
+  let cur='';
+  sections.forEach(s=>{
+    if(window.scrollY>=s.offsetTop-80) cur=s.id;
+  });
+  navLinks.forEach(a=>{
+    a.style.color = a.getAttribute('href')==='#'+cur ? 'var(--white)' : '';
+  });
+},{passive:true});
+</script>
+</body>
+</html>
